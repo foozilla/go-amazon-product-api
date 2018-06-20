@@ -2,22 +2,32 @@
 package amazonproduct
 
 import (
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"strconv"
 	"strings"
+
+	amazonproduct "github.com/forrest321/go-amazon-product-api"
 )
 
 /*
 ItemLookup takes a product ID (ASIN) and returns the result
 */
-func (api AmazonProductAPI) ItemLookup(ItemId string) (string, error) {
+func (api AmazonProductAPI) ItemLookup(ItemId string) (amazonproduct.ItemLookupResponse, error) {
 	params := map[string]string{
 		"ItemId":        ItemId,
 		"ResponseGroup": "Images,ItemAttributes,Small,EditorialReview",
 	}
 
-	return api.genSignAndFetch("ItemLookup", params)
+	lkup, err := api.genSignAndFetch("ItemLookup", params)
+	var aws amazonproduct.ItemLookupResponse
+	if err == nil {
+		xml.Unmarshal([]byte(lkup), aws)
+		return aws, nil
+	} else {
+		return aws, err
+	}
 }
 
 /*
