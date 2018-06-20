@@ -1,4 +1,4 @@
-package amazonproduct
+package main
 
 // Response describes the generic API Response
 type AWSResponse struct {

@@ -1,4 +1,4 @@
-package amazonproduct
+package main
 
 import (
 	"crypto/hmac"

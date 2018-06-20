@@ -1,5 +1,5 @@
 //Package amazonproduct provides methods for interacting with the Amazon Product Advertising API
-package amazonproduct
+package main
 
 import (
 	"encoding/xml"
@@ -7,27 +7,28 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
-	amazonproduct "github.com/forrest321/go-amazon-product-api"
 )
+
+func main() {
+
+}
 
 /*
 ItemLookup takes a product ID (ASIN) and returns the result
 */
-func (api AmazonProductAPI) ItemLookup(ItemId string) (amazonproduct.ItemLookupResponse, error) {
+func (api AmazonProductAPI) ItemLookup(ItemID string) (ItemLookupResponse, error) {
 	params := map[string]string{
-		"ItemId":        ItemId,
+		"ItemId":        ItemID,
 		"ResponseGroup": "Images,ItemAttributes,Small,EditorialReview",
 	}
 
 	lkup, err := api.genSignAndFetch("ItemLookup", params)
-	var aws amazonproduct.ItemLookupResponse
+	var aws ItemLookupResponse
 	if err == nil {
 		xml.Unmarshal([]byte(lkup), aws)
 		return aws, nil
-	} else {
-		return aws, err
 	}
+	return aws, err
 }
 
 /*
